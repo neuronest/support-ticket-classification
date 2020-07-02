@@ -105,9 +105,3 @@ if __name__ == "__main__":
         min_delta=conf_train.get("early_stopping_min_delta_acc", 0.01),
     )
     save_model(model, tokenizer)
-
-
-# check can build image // OK
-# check can run // OK
-# push image // OK
-# check image returns correct predictions
