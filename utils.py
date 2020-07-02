@@ -24,9 +24,12 @@ def encode_texts(tokenizer, texts):
 
 def encode_labels(texts_labels, unique_labels):
     unique_labels = sorted(unique_labels)
-    label_int = dict((label, i) for (i, label) in enumerate(unique_labels))
-    # int_label = dict((i, label) for (i, label) in enumerate(unique_labels))
-
+    # if labels are strings convert to ints before one-hot encoding
+    if isinstance(unique_labels[0], str):
+        label_int = dict((label, i) for (i, label) in enumerate(unique_labels))
+        texts_labels_encoded = np.array([label_int[label] for label in texts_labels])
+    else:
+        texts_labels_encoded = np.array(texts_labels)
     return to_categorical(
-        np.array([label_int[text_label] for text_label in texts_labels])
+        texts_labels_encoded, num_classes=max(texts_labels_encoded) + 1
     )
