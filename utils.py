@@ -30,6 +30,4 @@ def encode_labels(texts_labels, unique_labels):
         texts_labels_encoded = np.array([label_int[label] for label in texts_labels])
     else:
         texts_labels_encoded = np.array(texts_labels)
-    return to_categorical(
-        texts_labels_encoded, num_classes=max(texts_labels_encoded) + 1
-    )
+    return to_categorical(texts_labels_encoded, num_classes=max(unique_labels) + 1)
