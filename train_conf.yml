@@ -1,0 +1,16 @@
+training:
+  epochs: 20
+  batch_size: 128
+  learning_rate: 0.00005
+  early_stopping_patience: 3
+  early_stopping_min_delta_acc: 0.01
+  test_set_size: 0.25
+
+model:
+
+data:
+  dataset_path: all_tickets.csv
+  text_column: body
+  label_column: category
+  max_words_per_message: 100
+  pad_to_max_length: True
