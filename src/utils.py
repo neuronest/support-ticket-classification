@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from tensorflow.keras.utils import to_categorical
 import yaml
@@ -31,3 +33,10 @@ def encode_labels(texts_labels, unique_labels):
     else:
         texts_labels_encoded = np.array(texts_labels)
     return to_categorical(texts_labels_encoded, num_classes=max(unique_labels) + 1)
+
+
+def pip_packages():
+    with open("requirements.txt") as f:
+        pip_packages = "".join(f.readlines()).split(os.linesep)
+    # remove blank lines in requirements.txt
+    return [x for x in pip_packages if x != '']

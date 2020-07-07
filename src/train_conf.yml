@@ -7,7 +7,7 @@ training:
   test_set_size: 0.25
 
 data:
-  dataset_path: all_tickets.csv
+  dataset_path: subset_tickets.csv
   text_column: body
   label_column: category
   max_words_per_message: 100

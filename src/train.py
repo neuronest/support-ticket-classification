@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from transformers import DistilBertTokenizer
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 
-from utils import encode_labels, encode_texts, load_training_conf
+from src.utils import encode_labels, encode_texts, load_training_conf
 from model import DistilBertClassifier, save_model
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
