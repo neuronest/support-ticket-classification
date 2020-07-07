@@ -40,4 +40,4 @@ def pip_packages():
     with open("requirements.txt") as f:
         pip_packages = "".join(f.readlines()).split(os.linesep)
     # remove blank lines in requirements.txt
-    return [x for x in pip_packages if x != '']
+    return [x for x in pip_packages if x != ""]
