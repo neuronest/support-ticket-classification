@@ -72,7 +72,6 @@ def train_model(
 
 
 if __name__ == "__main__":
-
     conf = load_training_conf()
     conf_train, conf_data = conf["training"], conf["data"]
     (x_train, x_test, y_train, y_test), tokenizer = training_data(
