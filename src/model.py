@@ -4,7 +4,7 @@ from transformers import TFDistilBertForSequenceClassification
 import tensorflow as tf
 import pickle
 
-#from src.utils import encode_texts
+# from src.utils import encode_texts
 from utils import encode_texts
 
 
@@ -50,15 +50,16 @@ class DistilBertClassifier(tf.keras.Model):
         return outputs
 
 
-def save_model(model, tokenizer):
-    model.save("my_model")
-    with open("tokenizer.pkl", "wb") as f:
+def save_model(model, tokenizer, model_folder="."):
+    os.makedirs(model_folder, exist_ok=True)
+    model.save(os.path.join(model_folder, "my_model"))
+    with open(os.path.join(model_folder, "tokenizer.pkl"), "wb") as f:
         pickle.dump(tokenizer, f)
 
 
-def load_model():
-    model = tf.keras.models.load_model("my_model")
-    with open("tokenizer.pkl", "rb") as f:
+def load_model(model_folder="."):
+    model = tf.keras.models.load_model(os.path.join(model_folder, "my_model"))
+    with open(os.path.join(model_folder, "tokenizer.pkl"), "rb") as f:
         tokenizer = pickle.load(f)
     return model, tokenizer
 
