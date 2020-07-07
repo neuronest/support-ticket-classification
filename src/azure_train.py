@@ -1,0 +1,79 @@
+import os
+import argparse
+import shutil
+
+from tensorflow.keras.callbacks import Callback
+from azureml.core import Run
+
+from utils import load_training_conf
+from model import DistilBertClassifier, save_model
+from train import training_data, train_model, define_callbacks
+from azure_utils import load_azure_conf
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+ARG_PARSER = argparse.ArgumentParser()
+ARGS = None
+
+
+class LogRunMetrics(Callback):
+    """
+    Azure ML metrics logger, a run context is used globally
+    """
+
+    def on_epoch_end(self, epoch: int, log: dict = None) -> None:
+        if "val_loss" in log and "val_accuracy" in log:
+            run.log("Loss", log["val_loss"])
+            run.log("Accuracy", log["val_accuracy"])
+
+
+def handle_arguments():
+    # data args
+    ARG_PARSER.add_argument("--data-folder", type=str)
+    ARGS = ARG_PARSER.parse_args()
+    return ARGS
+
+
+if __name__ == "__main__":
+    run = Run.get_context()
+    ARGS = handle_arguments()
+    conf = load_training_conf("train_conf.yml")
+    conf_train, conf_data = conf["training"], conf["data"]
+    azure_conf = load_azure_conf("azure_conf.yml")
+    csv_dataset_name = azure_conf["LOCAL_DATASET_PATH"].split(os.sep)[-1]
+
+    (x_train, x_test, y_train, y_test), tokenizer = training_data(
+        tickets_data_path=os.path.join(ARGS.data_folder, csv_dataset_name),
+        text_column=conf_data["text_column"],
+        label_column=conf_data["label_column"],
+        test_size=conf["training"].get("test_set_size", 0.25),
+        subset_size=-1,
+        max_length=conf_data["max_words_per_message"],
+        pad_to_max_length=conf_data.get("pad_to_max_length", True),
+    )
+
+    model = DistilBertClassifier(
+        num_labels=y_train.shape[1],
+        learning_rate=conf_train.get("learning_rate", 5e-5),
+    )
+    callbacks = define_callbacks(
+        patience=conf_train.get("early_stopping_patience", 3),
+        min_delta=conf_train.get("early_stopping_min_delta_acc", 0.01),
+    ) + [LogRunMetrics()]
+
+    train_model(
+        model,
+        x_train,
+        x_test,
+        y_train,
+        y_test,
+        epochs=conf_train.get("epochs", 1),
+        batch_size=conf_train.get("batch_size", 64),
+        callbacks=callbacks,
+    )
+    save_model(model, tokenizer, "outputs")
+    shutil.make_archive(
+        os.path.join("outputs", "my_model"),
+        "gztar",
+        os.path.join("outputs", "my_model"),
+    )

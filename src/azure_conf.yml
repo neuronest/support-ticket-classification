@@ -1,0 +1,25 @@
+# fill tickets csv dataset local path
+LOCAL_DATASET_PATH: "subset_tickets.csv"
+# to be found in Azure portal
+SUBSCRIPTION_ID: "f2fa00aa-007b-4cef-a589-65214613d1a8"
+# to be found in Azure portal
+RESOURCE_GROUP: "rg-ticket-support-classification"
+
+STORAGE:
+  DefaultEndpointsProtocol: "https"
+  # to be found in Azure portal, default is "https"
+  AccountName: "mlwticketsuppo6223807026"
+  # to be found in Azure portal
+  AccountKey: "/qLYCOHEE+JTldH6cd1JG4bzSkB4P4TbwXFmBv/11JeXEjgHg4yghu6yANhFZyt87l8nyV3BSJ09Wypyre3pKQ=="
+  # to be found in Azure portal, default is "core.windows.net"
+  EndpointSuffix: "core.windows.net"
+
+# fill any name
+CONTAINER_NAME: "source"
+# to be found in Azure portal
+WORKSPACE_NAME: "mlw-ticket-support-classification"
+# fill any name
+DATASTORE_NAME: "ds0_support_ticket_classification"
+IMAGE_NAME: "mcr.microsoft.com/azureml/base-gpu:openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04"
+# to be found in Azure portal
+COMPUTE_NAME: "compute-support"
