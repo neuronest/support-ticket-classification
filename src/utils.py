@@ -5,8 +5,9 @@ from tensorflow.keras.utils import to_categorical
 import yaml
 
 
-def load_training_conf():
-    with open("train_conf.yml", "r") as file:
+def load_training_conf(conf_path=None):
+    conf_path = conf_path or os.path.join("src", "train_conf.yml")
+    with open(conf_path, "r") as file:
         conf = yaml.full_load(file)
     return conf
 
