@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from model import load_model, model_predict
+from src.model import load_model, model_predict
 
 model, tokenizer = load_model()
 app = FastAPI()
