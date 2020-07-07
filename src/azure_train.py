@@ -63,7 +63,6 @@ if __name__ == "__main__":
         patience=conf_train.get("early_stopping_patience", 3),
         min_delta=conf_train.get("early_stopping_min_delta_acc", 0.01),
     ) + [LogRunMetrics()]
-
     train_model(
         model,
         x_train,
