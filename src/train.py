@@ -38,17 +38,7 @@ def training_data(
     return (x_train, x_test, y_train, y_test), tokenizer
 
 
-def train_model(
-    model,
-    x_train,
-    x_test,
-    y_train,
-    y_test,
-    patience=3,
-    batch_size=64,
-    epochs=1,
-    min_delta=0.01,
-):
+def define_callbacks(patience=3, min_delta=0.01):
     training_early_stopper = EarlyStopping(
         monitor="val_accuracy",
         # 1% min change in accuracy to be considered
@@ -63,6 +53,12 @@ def train_model(
             "logs", "scalars", datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S")
         )
     )
+    return [training_early_stopper, training_tensorboard]
+
+
+def train_model(
+    model, x_train, x_test, y_train, y_test, batch_size=64, epochs=1, callbacks=None
+):
     model.fit(
         x_train,
         y_train,
@@ -71,12 +67,11 @@ def train_model(
         workers=100,
         epochs=epochs,
         validation_data=(x_test, y_test),
-        callbacks=[training_early_stopper, training_tensorboard],
+        callbacks=callbacks,
     )
 
 
 if __name__ == "__main__":
-
     conf = load_training_conf()
     conf_train, conf_data = conf["training"], conf["data"]
     (x_train, x_test, y_train, y_test), tokenizer = training_data(
@@ -100,8 +95,10 @@ if __name__ == "__main__":
         y_train,
         y_test,
         epochs=conf_train.get("epochs", 1),
-        patience=conf_train.get("early_stopping_patience", 3),
         batch_size=conf_train.get("batch_size", 64),
-        min_delta=conf_train.get("early_stopping_min_delta_acc", 0.01),
+        callbacks=define_callbacks(
+            patience=conf_train.get("early_stopping_patience", 3),
+            min_delta=conf_train.get("early_stopping_min_delta_acc", 0.01),
+        ),
     )
     save_model(model, tokenizer)
