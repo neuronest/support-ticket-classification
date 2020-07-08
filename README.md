@@ -90,8 +90,8 @@ Next step is to send the data to an Azure data folder.
 To do it we need to set a few Azure settings at ```src/azure_conf.yml```
 
 ```
-LOCAL_DATASET_PATH: "subset_tickets.csv"
-SUBSCRIPTION_ID: "f2fa00aa-007b-4cef-a589-65214613d1a8"
+LOCAL_DATASET_PATH: "all_tickets.csv"
+SUBSCRIPTION_ID: "<subscription_id>"
 ...
 
 STORAGE:
