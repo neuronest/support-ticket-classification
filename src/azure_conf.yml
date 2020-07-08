@@ -6,11 +6,12 @@ SUBSCRIPTION_ID: "f2fa00aa-007b-4cef-a589-65214613d1a8"
 RESOURCE_GROUP: "rg-ticket-support-classification"
 
 STORAGE:
-  DefaultEndpointsProtocol: "https"
-  # to be found in Azure portal, default is "https"
+  # to be found in Azure portal
   AccountName: "mlwticketsuppo6223807026"
   # to be found in Azure portal
   AccountKey: "/qLYCOHEE+JTldH6cd1JG4bzSkB4P4TbwXFmBv/11JeXEjgHg4yghu6yANhFZyt87l8nyV3BSJ09Wypyre3pKQ=="
+  # to be found in Azure portal, default is "https"
+  DefaultEndpointsProtocol: "https"
   # to be found in Azure portal, default is "core.windows.net"
   EndpointSuffix: "core.windows.net"
 
