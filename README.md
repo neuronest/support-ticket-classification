@@ -9,6 +9,7 @@ It is a real world problem and the type of solution that is presented here aims
  at saving time in handling production issues by the IT teams.
 
 This repository allows you to:
+- Get the data
 - Train the model to classify tickets, either locally or in Azure cloud
 - Deploy the model on a Azure Webapp and expose it through a REST API
 
@@ -100,21 +101,21 @@ STORAGE:
   ...
 ...
 ```
-- ```LOCAL_DATASET_PATH```: the path of the dataset you want to send to Azure
+- ```LOCAL_DATASET_PATH```: the path to the csv dataset you want to send to Azure
 - ```SUBSCRIPTION_ID``` and ```STORAGE``` info is found at:
 ![image](readme_images/subscription_storage_info.png)
 more precisely, ```<account_name>``` and ```<account_key>``` can be found at:
 ![image](readme_images/account_name_key.png)
 
 
-Sent the data to Azure
+Send the data to Azure
  ```console
  $ python src/azure_store_data.py
  
  ---> all_tickets.csv or subset_tickets.csv sent to your Azure data folder
  ```
  
-Now run training in Azure:
+Now run the training in Azure:
  ```console
  $ python src/azure_run_train.py
  ```
@@ -131,13 +132,13 @@ Download your **trained model** and **tokenizer** from Azure:
  You should have ```my_model``` folder and ```tokenizer.pkl``` 
  at project root.
  
-## Build project Docker image and push to Docker Hub
+## Build the project Docker image and push to Docker Hub
 
 Go to [Docker Hub](https://hub.docker.com/repositories)
 
 - Create a private repository ```ticket_support_classification```
 
-In the following we assume your Docker Hub user name is ```yohskua```
+In the following we assume that your Docker Hub user name is ```yohskua```
 
 **You must replace it by your own Docker Hub user name**
 
@@ -167,9 +168,9 @@ Finally add an environment variable that Azure will use:
 ![image](readme_images/webapp_environment_variable.png)
   
  
-Azure publishes this container port to the host machine. 
+Azure uses this variable so that Docker publishes this container port to the host machine. 
 
-This container port is the one used by the FastApi server inside the container.
+This container port is the one used by the FastAPI server inside the container.
 
 Try and run this example to see if the Web App is correctly deployed
  

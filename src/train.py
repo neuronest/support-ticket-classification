@@ -83,7 +83,6 @@ if __name__ == "__main__":
         max_length=conf_data["max_words_per_message"],
         pad_to_max_length=conf_data.get("pad_to_max_length", True),
     )
-
     model = DistilBertClassifier(
         num_labels=y_train.shape[1],
         learning_rate=conf_train.get("learning_rate", 5e-5),
