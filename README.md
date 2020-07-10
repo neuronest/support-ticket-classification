@@ -7,6 +7,12 @@ to correctly classify IT support tickets.
 
 It is a real world problem and the type of solution that is presented here aims
  at saving time in handling production issues by the IT teams.
+ 
+The data is Microsoft support ticket dataset.
+
+The data comes in two versions in this project:
+- The first one, ```all_tickets.csv```, has about 50.000 samples and 13 **unbalanced** distinct tickets categories.
+- The second one, ```subset_tickets.csv```, has about 3.000 samples and 5 **balanced** distinct tickets categories.
 
 This repository allows you to:
 - Get the data
