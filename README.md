@@ -17,7 +17,7 @@ The data comes in two versions in this project:
 This repository allows you to:
 - Get the data
 - Train the model to classify tickets, either locally or in Azure cloud
-- Deploy the model on a Azure Webapp and expose it through a REST API
+- Deploy the model on an Azure Webapp and expose it through a REST API
 
 ## Requirements
  
