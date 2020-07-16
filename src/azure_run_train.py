@@ -4,6 +4,7 @@ Endpoint to launch an experiment on AzureML.
 
 import os
 from os.path import dirname
+from typing import Optional
 
 from azureml.train.estimator import Estimator
 from azureml.core import Workspace, Datastore, Experiment
@@ -13,17 +14,17 @@ from src.azure_utils import load_azure_conf
 
 
 def run_azure_experiment_with_storage(
-    subscription_id,
-    resource_group,
-    workspace_name,
-    datastore_name,
-    container_name,
-    storage_account_name,
-    storage_account_key,
-    compute_name,
-    experiment_name=None,
-    source_directory=None,
-    image_name=None,
+    subscription_id: str,
+    resource_group: str,
+    workspace_name: str,
+    datastore_name: str,
+    container_name: str,
+    storage_account_name: str,
+    storage_account_key: str,
+    compute_name: str,
+    experiment_name: Optional[str] = None,
+    source_directory: Optional[str] = None,
+    image_name: Optional[str] = None,
     use_gpu=True,
 ):
     workspace = Workspace(subscription_id, resource_group, workspace_name,)
