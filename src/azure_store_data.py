@@ -3,9 +3,16 @@ import os
 from azure.core.exceptions import ResourceExistsError
 
 from src.azure_utils import create_container
+from azure.storage.blob import BlobServiceClient
 
 
-def write_csv_azure(csv, csv_name, blob_service_client, container_name, exist_ok=True):
+def write_csv_azure(
+    csv: str,
+    csv_name: str,
+    blob_service_client: BlobServiceClient,
+    container_name: str,
+    exist_ok: bool = True,
+) -> None:
     try:
         blob_service_client.get_blob_client(container_name, csv_name).upload_blob(csv)
     except ResourceExistsError:
@@ -15,7 +22,7 @@ def write_csv_azure(csv, csv_name, blob_service_client, container_name, exist_ok
             raise ResourceExistsError
 
 
-def load_csv_as_str(csv_path):
+def load_csv_as_str(csv_path: str) -> str:
     with open(csv_path) as f:
         csv = "".join(f.readlines())
     return csv

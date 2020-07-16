@@ -1,3 +1,5 @@
+from typing import Dict, Union
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -12,7 +14,7 @@ class Ticket(BaseModel):
 
 
 @app.post("/ticket_support_classification")
-def classify_ticket(ticket: Ticket):
+def classify_ticket(ticket: Ticket) -> Dict[str, Union[str, int]]:
     assert isinstance(ticket.message, str)
     return {
         "ticket_message": ticket.message,
