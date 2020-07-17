@@ -1,6 +1,7 @@
 import os
 import argparse
 import shutil
+from typing import Optional, Tuple
 
 from tensorflow.keras.callbacks import Callback
 from azureml.core import Run
@@ -20,20 +21,20 @@ class LogRunMetrics(Callback):
     Azure ML metrics logger, a run context is used globally
     """
 
-    def on_epoch_end(self, epoch: int, log: dict = None) -> None:
+    def on_epoch_end(self, epoch: int, log: Optional[dict] = None) -> None:
         if "val_loss" in log and "val_accuracy" in log:
             azure_run_context.log("Loss", log["val_loss"])
             azure_run_context.log("Accuracy", log["val_accuracy"])
 
 
-def handle_arguments():
+def handle_arguments() -> argparse.Namespace:
     # data args
     ARG_PARSER.add_argument("--data-folder", type=str)
     ARGS = ARG_PARSER.parse_args()
     return ARGS
 
 
-def handle_configurations():
+def handle_configurations() -> Tuple[dict, dict, dict]:
     conf = load_training_conf("train_conf.yml")
     conf_train, conf_data = conf["training"], conf["data"]
     azure_conf = load_azure_conf("azure_conf.yml")

@@ -1,10 +1,13 @@
 import os
+from typing import Optional, List, Tuple
 
 import datetime
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from transformers import DistilBertTokenizer
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
+from tensorflow.keras.callbacks import Callback
 
 from utils import encode_labels, encode_texts, load_training_conf
 from model import DistilBertClassifier, save_model
@@ -13,14 +16,15 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 def training_data(
-    tickets_data_path,
-    text_column,
-    label_column,
-    test_size=0.25,
-    subset_size=-1,
-    max_length=100,
-    pad_to_max_length=True,
-):
+    tickets_data_path: str,
+    text_column: str,
+    label_column: str,
+    test_size: float = 0.25,
+    subset_size: int = -1,
+    max_length: int = 100,
+    pad_to_max_length: bool = True,
+) -> Tuple[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray], DistilBertTokenizer]:
+
     df = pd.read_csv(tickets_data_path)
     x = df[text_column].tolist()
     y = df[label_column].tolist()
@@ -38,7 +42,9 @@ def training_data(
     return (x_train, x_test, y_train, y_test), tokenizer
 
 
-def define_callbacks(patience=3, min_delta=0.01):
+def define_callbacks(
+    patience: int = 3, min_delta: float = 0.01
+) -> List[EarlyStopping, TensorBoard]:
     training_early_stopper = EarlyStopping(
         monitor="val_accuracy",
         # 1% min change in accuracy to be considered
@@ -57,8 +63,15 @@ def define_callbacks(patience=3, min_delta=0.01):
 
 
 def train_model(
-    model, x_train, x_test, y_train, y_test, batch_size=64, epochs=1, callbacks=None
-):
+    model: DistilBertClassifier,
+    x_train: np.ndarray,
+    x_test: np.ndarray,
+    y_train: np.ndarray,
+    y_test: np.ndarray,
+    batch_size: int = 64,
+    epochs: int = 1,
+    callbacks: Optional[List[Callback]] = None,
+) -> None:
     model.fit(
         x_train,
         y_train,
