@@ -1,5 +1,9 @@
 # Support ticket classification
 
+## Article
+
+This project has also been discussed, in a more schematic way, [in an article on our website](https://neuronest.net/attribution-des-tickets-aux-equipes-it/).
+
 ## Documentation
 
 **Support Ticket Classification** is a Data Science project which goal is 
