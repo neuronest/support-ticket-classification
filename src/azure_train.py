@@ -12,10 +12,6 @@ from train import training_data, train_model, define_callbacks
 from azure_utils import load_azure_conf
 
 
-ARG_PARSER = argparse.ArgumentParser()
-ARGS = None
-
-
 class LogRunMetrics(Callback):
     """
     Azure ML metrics logger, a run context is used globally
@@ -27,11 +23,11 @@ class LogRunMetrics(Callback):
             azure_run_context.log("Accuracy", log["val_accuracy"])
 
 
-def handle_arguments() -> argparse.Namespace:
+def handle_arguments(arg_parser) -> argparse.Namespace:
     # data args
-    ARG_PARSER.add_argument("--data-folder", type=str)
-    ARGS = ARG_PARSER.parse_args()
-    return ARGS
+    arg_parser.add_argument("--data-folder", type=str)
+    args = arg_parser.parse_args()
+    return args
 
 
 def handle_configurations() -> Tuple[dict, dict, dict]:
@@ -43,12 +39,12 @@ def handle_configurations() -> Tuple[dict, dict, dict]:
 
 if __name__ == "__main__":
     azure_run_context = Run.get_context()
-    ARGS = handle_arguments()
+    args = handle_arguments(argparse.ArgumentParser())
     conf_train, conf_data, azure_conf = handle_configurations()
     csv_dataset_name = azure_conf["LOCAL_DATASET_PATH"].split(os.sep)[-1]
 
     (x_train, x_test, y_train, y_test), tokenizer = training_data(
-        tickets_data_path=os.path.join(ARGS.data_folder, csv_dataset_name),
+        tickets_data_path=os.path.join(args.data_folder, csv_dataset_name),
         text_column=conf_data["text_column"],
         label_column=conf_data["label_column"],
         test_size=conf_train.get("test_set_size", 0.25),
