@@ -13,10 +13,6 @@ class Ticket(BaseModel):
     message: str
 
 
-test = model_predict(model, tokenizer, ["test"])
-print()
-
-
 @app.post("/ticket_support_classification")
 def classify_ticket(ticket: Ticket) -> Dict[str, Union[str, int]]:
     assert isinstance(ticket.message, str)
