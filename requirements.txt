@@ -4,7 +4,7 @@ uvicorn==0.11.5
 fastapi==0.56.0
 tensorflow==2.1.0
 transformers==2.11.0
-PyYAML==5.3.1
+PyYAML==5.4
 scikit-learn==0.21.3
 
 azure-storage-blob==12.3.2
